@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faker in SQL</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Faker in SQL</h1>
+    <p class="subtitle">Random, fake personal data - generated entirely by PostgreSQL functions.</p>
+
+    {# Changing the locale or seed always returns to batch 1 (hidden "batch" field) #}
+    <form method="get" action="{{ url_for('index') }}" class="controls">
+      <label>Locale
+        <select name="locale">
+          {% for code, name in locales %}
+            <option value="{{ code }}" {% if code == locale %}selected{% endif %}>{{ name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Seed
+        <input type="text" name="seed" id="seed" value="{{ seed }}" inputmode="numeric">
+      </label>
+      <input type="hidden" name="batch" value="1">
+      <button type="button" id="random-seed">Generate random seed</button>
+      <button type="submit">Generate</button>
+    </form>
+
+    {% for message in errors %}
+      <p class="error">{{ message }}</p>
+    {% endfor %}
+
+    <div class="pager">
+      {% if batch > 1 %}
+        <a href="{{ url_for('index', locale=locale, seed=seed, batch=batch - 1) }}">&larr; Previous batch</a>
+      {% endif %}
+      <span>Batch {{ batch }} (users {{ (batch - 1) * batch_size + 1 }}-{{ batch * batch_size }})</span>
+      <a href="{{ url_for('index', locale=locale, seed=seed, batch=batch + 1) }}">Next batch &rarr;</a>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Full name</th><th>Address</th><th>Lat.</th><th>Long.</th>
+            <th>Height</th><th>Weight</th><th>Eyes</th><th>Phone</th><th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{ user[0] }}</td>
+              <td>{{ user[1] }}</td>
+              <td>{{ user[2] }}</td>
+              <td class="num">{{ user[3] }}</td>
+              <td class="num">{{ user[4] }}</td>
+              <td class="num">{{ user[5] }} cm</td>
+              <td class="num">{{ user[6] }} kg</td>
+              <td>{{ user[7] }}</td>
+              <td>{{ user[8] }}</td>
+              <td>{{ user[9] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sql-hint">Query executed in the database:
+      <code>SELECT * FROM generate_users('{{ locale }}', {{ seed }}, {{ batch }}, {{ batch_size }});</code>
+    </p>
+  </main>
+
+  <script>
+    document.getElementById("random-seed").addEventListener("click", function () {
+      document.getElementById("seed").value = Math.floor(Math.random() * 1000000000);
+    });
+  </script>
+</body>
+</html>

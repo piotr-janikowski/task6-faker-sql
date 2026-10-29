@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: faker
+      POSTGRES_PASSWORD: faker
+      POSTGRES_DB: faker
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - ./tests:/tests:ro
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U faker -d faker"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  web:
+    build: ./app
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: faker
+      DB_USER: faker
+      DB_PASSWORD: faker
+      FLASK_DEBUG: "1"
+    volumes:
+      - ./app:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:

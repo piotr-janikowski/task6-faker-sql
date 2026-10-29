@@ -1,0 +1,19 @@
+body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f7; color: #1f2933; }
+main { max-width: 1300px; margin: 0 auto; padding: 24px 16px; }
+h1 { margin: 0; }
+.subtitle { margin-top: 4px; color: #52606d; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 20px 0; }
+.controls label { display: flex; flex-direction: column; font-size: 14px; gap: 4px; }
+select, input[type=text], button { padding: 8px 10px; font-size: 14px; border: 1px solid #cbd2d9; border-radius: 6px; background: #fff; }
+button { cursor: pointer; }
+button[type=submit] { background: #2563eb; color: #fff; border-color: #2563eb; }
+.pager { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; font-size: 14px; }
+.pager a { color: #2563eb; text-decoration: none; font-weight: 600; }
+.table-wrapper { overflow-x: auto; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #e4e7eb; white-space: nowrap; }
+th { background: #e4e7eb; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.error { background: #fde8e8; color: #9b1c1c; padding: 8px 12px; border-radius: 6px; }
+.sql-hint { font-size: 13px; color: #52606d; }
+code { background: #e4e7eb; padding: 2px 6px; border-radius: 4px; }
