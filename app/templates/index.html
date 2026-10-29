@@ -9,7 +9,6 @@
 <body>
   <main>
     <h1>Faker in SQL</h1>
-    <p class="subtitle">Random, fake personal data - generated entirely by PostgreSQL functions.</p>
 
     {# Changing the locale or seed always returns to batch 1 (hidden "batch" field) #}
     <form method="get" action="{{ url_for('index') }}" class="controls">
@@ -66,10 +65,6 @@
         </tbody>
       </table>
     </div>
-
-    <p class="sql-hint">Query executed in the database:
-      <code>SELECT * FROM generate_users('{{ locale }}', {{ seed }}, {{ batch }}, {{ batch_size }});</code>
-    </p>
   </main>
 
   <script>
